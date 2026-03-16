@@ -26,3 +26,12 @@ def subtree : BinaryTree Nat := BinaryTree.cons 7 leaf1 leaf2
 def tree : BinaryTree Nat := BinaryTree.cons 11 subtree leaf3
 
 #eval sum tree
+
+inductive Optional (α : Type) where
+  | none : Optional α
+  | some (value : α) : Optional α
+
+def test (p : Optional Nat) : Nat :=
+  match p with
+  | Optional.none => Nat.zero
+  | Optional.some v => v
