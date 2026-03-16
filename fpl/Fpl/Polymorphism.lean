@@ -52,3 +52,25 @@ def zip {α β : Type} (xs : List α) (ys : List β) : List (α × β) :=
       | List.cons y ys' => List.cons (x, y) (zip xs' ys')
 
 #eval zip xs animals
+
+def take (xs : List α) (n : Nat) : List α :=
+  match xs with
+    | List.nil => List.nil
+    | List.cons x xs' => if n = Nat.zero then List.nil else
+      List.cons x (take xs' (Nat.pred n))
+
+#eval take ys 6
+
+def distribute (p: α × (β ⊕ γ)) : (α × β) ⊕ (α × γ) :=
+  match p.snd with
+    | Sum.inl v => Sum.inl (p.fst, v)
+    | Sum.inr v => Sum.inr (p.fst, v)
+
+def z : Nat × (String ⊕ PetName) := (1, Sum.inl "test")
+
+#eval distribute z
+
+def double (v: Bool × α) : α ⊕ α :=
+  match v.fst with
+    | Bool.true => Sum.inl v.snd
+    | Bool.false => Sum.inr v.snd
