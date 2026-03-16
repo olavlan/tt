@@ -31,6 +31,7 @@ def pair : Nat × String := (9, "test")
 inductive PetName where
   | dog (name : String) : PetName
   | cat (name : String) : PetName
+deriving Repr
 
 def animals : List PetName := [PetName.cat "Snøvy", PetName.dog "Perry", PetName.cat "Thea"]
 
@@ -43,3 +44,11 @@ def howManyDogs (animals : List PetName) : Nat :=
 #eval howManyDogs animals
 
 def zip {α β : Type} (xs : List α) (ys : List β) : List (α × β) :=
+  match xs with
+    | List.nil => List.nil
+    | List.cons x xs' =>
+      match ys with
+      | List.nil => List.nil
+      | List.cons y ys' => List.cons (x, y) (zip xs' ys')
+
+#eval zip xs animals
